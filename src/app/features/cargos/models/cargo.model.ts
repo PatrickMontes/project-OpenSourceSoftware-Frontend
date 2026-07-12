@@ -1,5 +1,5 @@
-
 export interface Cargo {
-    nombre: string,
-    salarioSemanal: number
+  id: number;
+  nombre: string;
+  salarioSemanal: number;
 }

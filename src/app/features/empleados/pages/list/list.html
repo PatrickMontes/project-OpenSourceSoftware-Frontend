@@ -1,63 +1,94 @@
-<app-page-header title="Empleados" subtitle="Gestión de empleados" [showAdd]="true" addRoute="/empleados/crear" addLabel="Nuevo Empleado" />
+<app-page-header
+  title="Empleados"
+  subtitle="Gestión de empleados"
+  [showAdd]="true"
+  addRoute="/empleados/crear"
+  addLabel="Nuevo Empleado"
+/>
 
 @if (loading()) {
-  <div class="flex items-center justify-center py-12">
-    <span class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"></span>
-  </div>
+<div class="flex items-center justify-center py-12">
+  <span
+    class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"
+  ></span>
+</div>
 } @else {
-  <div class="overflow-hidden rounded-(--radius) border border-border">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="border-b border-border bg-muted/50">
-          <th class="px-4 py-3 text-left font-medium text-muted-foreground">DNI</th>
-          <th class="px-4 py-3 text-left font-medium text-muted-foreground">Nombres</th>
-          <th class="px-4 py-3 text-left font-medium text-muted-foreground">Apellidos</th>
-          <th class="px-4 py-3 text-left font-medium text-muted-foreground">Correo</th>
-          <th class="px-4 py-3 text-left font-medium text-muted-foreground">Estado</th>
-          <th class="px-4 py-3 text-right font-medium text-muted-foreground">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (emp of empleados(); track emp.id) {
-          <tr class="border-b border-border transition-colors hover:bg-muted/30">
-            <td class="px-4 py-3 text-foreground">{{ emp.dni }}</td>
-            <td class="px-4 py-3 font-medium text-foreground">{{ emp.nombres }}</td>
-            <td class="px-4 py-3 text-foreground">{{ emp.apellidos }}</td>
-            <td class="px-4 py-3 text-foreground">{{ emp.correo }}</td>
-            <td class="px-4 py-3">
-              <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
-                [class.bg-green-100]="emp.estado === 'ACTIVO'"
-                [class.text-green-700]="emp.estado === 'ACTIVO'"
-                [class.bg-red-100]="emp.estado === 'INACTIVO'"
-                [class.text-red-700]="emp.estado === 'INACTIVO'">
-                {{ emp.estado }}
-              </span>
-            </td>
-            <td class="px-4 py-3 text-right">
-              <div class="flex items-center justify-end gap-1">
-                <a [routerLink]="['/empleados', emp.id]"
-                  class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
-                  Ver
-                </a>
-                <a [routerLink]="['/empleados', emp.id, 'editar']"
-                  class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
-                  Editar
-                </a>
-                <button (click)="delete(emp.id)"
-                  class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10">
-                  Eliminar
-                </button>
-              </div>
-            </td>
-          </tr>
-        } @empty {
-          <tr>
-            <td colspan="6" class="px-4 py-12 text-center text-sm text-muted-foreground">
-              No hay empleados registrados
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+<div class="overflow-hidden rounded-(--radius) border border-border">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b border-border bg-muted/50">
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">
+          DNI
+        </th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">
+          Nombres
+        </th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">
+          Apellidos
+        </th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">
+          Correo
+        </th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">
+          Estado
+        </th>
+        <th class="px-4 py-3 text-right font-medium text-muted-foreground">
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (emp of empleados(); track emp.id) {
+      <tr class="border-b border-border transition-colors hover:bg-muted/30">
+        <td class="px-4 py-3 text-foreground">{{ emp.dni }}</td>
+        <td class="px-4 py-3 font-medium text-foreground">{{ emp.nombres }}</td>
+        <td class="px-4 py-3 text-foreground">{{ emp.apellidos }}</td>
+        <td class="px-4 py-3 text-foreground">{{ emp.correo }}</td>
+        <td class="px-4 py-3">
+          <span
+            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+            [class.bg-green-100]="emp.estado === 'ACTIVO'"
+            [class.text-green-700]="emp.estado === 'ACTIVO'"
+            [class.bg-red-100]="emp.estado === 'INACTIVO'"
+            [class.text-red-700]="emp.estado === 'INACTIVO'"
+          >
+            {{ emp.estado }}
+          </span>
+        </td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex items-center justify-end gap-1">
+            <a
+              [routerLink]="['/empleados', emp.id]"
+              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Ver
+            </a>
+            <a
+              [routerLink]="['/empleados', emp.id, 'editar']"
+              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Editar
+            </a>
+            <button
+              (click)="delete(emp.id)"
+              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10"
+            >
+              Eliminar
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td
+          colspan="6"
+          class="px-4 py-12 text-center text-sm text-muted-foreground"
+        >
+          No hay empleados registrados
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
 }
