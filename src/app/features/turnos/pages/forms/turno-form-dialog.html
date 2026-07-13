@@ -1,0 +1,122 @@
+@if (abierto()) {
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+  (click)="onCerrar()"
+>
+  <div
+    class="w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-800 dark:bg-gray-950"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="turno-form-title"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex items-center justify-between">
+      <h3 id="turno-form-title" class="text-base font-semibold tracking-tight">
+        {{ esEdicion() ? 'Editar turno' : 'Nuevo turno' }}
+      </h3>
+      <button
+        type="button"
+        (click)="onCerrar()"
+        class="inline-flex size-7 items-center justify-center rounded-md text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+        aria-label="Cerrar"
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form
+      [formGroup]="formulario"
+      (ngSubmit)="onSubmit()"
+      class="mt-4 flex flex-col gap-4"
+    >
+      <div class="flex flex-col gap-1.5">
+        <label for="tipo" class="text-sm font-medium">Tipo de turno</label>
+        <select
+          id="tipo"
+          formControlName="tipo"
+          class="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200 dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-600 dark:focus:ring-gray-800"
+        >
+          @for (tipo of tipos; track tipo) {
+          <option [value]="tipo">
+            {{ tipo.charAt(0) + tipo.slice(1).toLowerCase() }}
+          </option>
+          }
+        </select>
+        @if (formulario.controls.tipo.invalid &&
+        formulario.controls.tipo.touched) {
+        <span class="text-xs text-red-600 dark:text-red-400">
+          Selecciona un tipo de turno.
+        </span>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label for="horaInicio" class="text-sm font-medium"
+            >Hora de inicio</label
+          >
+          <input
+            id="horaInicio"
+            type="time"
+            formControlName="horaInicio"
+            class="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200 dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-600 dark:focus:ring-gray-800"
+          />
+          @if (formulario.controls.horaInicio.invalid &&
+          formulario.controls.horaInicio.touched) {
+          <span class="text-xs text-red-600 dark:text-red-400">
+            Ingresa la hora de inicio.
+          </span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="horaFin" class="text-sm font-medium">Hora de fin</label>
+          <input
+            id="horaFin"
+            type="time"
+            formControlName="horaFin"
+            class="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200 dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-600 dark:focus:ring-gray-800"
+          />
+          @if (formulario.controls.horaFin.invalid &&
+          formulario.controls.horaFin.touched) {
+          <span class="text-xs text-red-600 dark:text-red-400">
+            Ingresa la hora de fin.
+          </span>
+          }
+        </div>
+      </div>
+
+      <div class="mt-2 flex justify-end gap-2">
+        <button
+          type="button"
+          (click)="onCerrar()"
+          class="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="guardando()"
+          class="inline-flex items-center gap-1.5 rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-300"
+        >
+          @if (guardando()) {
+          <span
+            class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent"
+          ></span>
+          } {{ esEdicion() ? 'Guardar cambios' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}

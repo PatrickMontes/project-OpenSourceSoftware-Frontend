@@ -6,6 +6,11 @@ import { DashboardLayout } from "./layouts/dashboard-layout/dashboard-layout";
 import { authGuard } from "./core/guards/auth-guard";
 import { List } from "./features/empleados/pages/list/list";
 import { List as ListCargos } from "./features/cargos/pages/list/list";
+import { List as ListTurnos } from "./features/turnos/pages/list/list";
+import { List as ListSemanas } from "./features/semanas/pages/list/list";
+import { List as ListPagos } from "./features/pagos/pages/list/list";
+import { List as ListPlanillas } from "./features/planillas/pages/list/list";
+import { Detail as DetailPlanilla } from "./features/planillas/pages/detail/detail";
 import { Create } from "./features/empleados/pages/create/create";
 import { Edit } from "./features/empleados/pages/edit/edit";
 import { Detail } from "./features/empleados/pages/detail/detail";
@@ -24,6 +29,11 @@ export const routes: Routes = [
       { path: "empleados/:id", component: Detail },
       { path: "empleados/:id/editar", component: Edit },
       { path: "cargos", component: ListCargos },
+      { path: "turnos", component: ListTurnos },
+      { path: "semanas", component: ListSemanas },
+      { path: "pagos", component: ListPagos },
+      { path: "planillas", component: ListPlanillas },
+      { path: "planillas/:id", component: DetailPlanilla },
       { path: "", redirectTo: "/dashboard", pathMatch: "full" },
     ],
   },

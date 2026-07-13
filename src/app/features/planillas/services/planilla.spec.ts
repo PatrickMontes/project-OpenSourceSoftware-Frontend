@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { Planilla } from './planilla';
+import { PlanillaService } from './planilla';
 
-describe('Planilla', () => {
-  let service: Planilla;
+describe('PlanillaService', () => {
+  let service: PlanillaService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Planilla);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(PlanillaService);
   });
 
   it('should be created', () => {

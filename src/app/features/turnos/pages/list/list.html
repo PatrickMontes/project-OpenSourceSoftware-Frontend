@@ -1,1 +1,199 @@
-<p>list works!</p>
+@if (loading()) {
+<div class="flex items-center justify-center py-12">
+  <span
+    class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"
+  ></span>
+</div>
+} @else {
+<div class="flex flex-col gap-4 text-gray-900 dark:text-gray-100">
+  <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-1">
+      <h2 class="text-lg font-semibold tracking-tight">Turnos</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        Gestiona los turnos de trabajo y sus horarios.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      (click)="nuevoTurno()"
+      class="inline-flex items-center gap-1.5 rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-300"
+    >
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5 12h14M12 5v14" />
+      </svg>
+      Nuevo turno
+    </button>
+  </div>
+
+  <!-- Barra de filtro -->
+  <div class="relative w-full max-w-sm">
+    <svg
+      class="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-gray-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+    <input
+      type="text"
+      placeholder="Buscar turno..."
+      [ngModel]="filtro()"
+      (ngModelChange)="onFiltroChange($event)"
+      class="w-full rounded-md border border-gray-200 bg-white py-2 pl-8 pr-3 text-sm shadow-sm outline-none placeholder:text-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-200 dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-600 dark:focus:ring-gray-800"
+    />
+  </div>
+
+  <!-- Tabla -->
+  <div
+    class="relative w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800"
+  >
+    <table class="w-full caption-bottom text-sm">
+      <caption
+        class="mt-2 px-4 pb-3 text-left text-sm text-gray-500 dark:text-gray-400"
+      >
+        {{ turnosFiltrados().length }} turno(s) registrado(s)
+      </caption>
+
+      <thead
+        class="[&_tr]:border-b [&_tr]:border-gray-200 dark:[&_tr]:border-gray-800"
+      >
+        <tr>
+          <th
+            class="h-10 px-4 w-[80px] text-left align-middle text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          >
+            ID
+          </th>
+          <th
+            class="h-10 px-4 text-left align-middle text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          >
+            Tipo
+          </th>
+          <th
+            class="h-10 px-4 w-[160px] text-left align-middle text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          >
+            Hora inicio
+          </th>
+          <th
+            class="h-10 px-4 w-[160px] text-left align-middle text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          >
+            Hora fin
+          </th>
+          <th
+            class="h-10 px-4 w-[120px] text-right align-middle text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          >
+            Acciones
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="[&_tr:last-child]:border-0">
+        @for (turno of turnosFiltrados(); track turno.id) {
+        <tr
+          class="border-b border-gray-200 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-900"
+        >
+          <td
+            class="p-4 align-middle font-medium text-gray-500 dark:text-gray-400"
+          >
+            #{{ turno.id }}
+          </td>
+          <td class="p-4 align-middle">
+            <span
+              class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            >
+              {{ formatearTipo(turno.tipo) }}
+            </span>
+          </td>
+          <td class="p-4 align-middle tabular-nums">
+            {{ formatearHora(turno.horaInicio) }}
+          </td>
+          <td class="p-4 align-middle tabular-nums">
+            {{ formatearHora(turno.horaFin) }}
+          </td>
+          <td class="p-4 align-middle text-right">
+            <div class="flex justify-end gap-1">
+              <button
+                type="button"
+                (click)="editarTurno(turno)"
+                class="inline-flex size-8 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+                aria-label="Editar turno"
+              >
+                <svg
+                  class="size-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                (click)="solicitarEliminar(turno)"
+                class="inline-flex size-8 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-950 dark:hover:text-red-400"
+                aria-label="Eliminar turno"
+              >
+                <svg
+                  class="size-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"
+                  />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td
+            colspan="5"
+            class="py-8 text-center text-gray-400 dark:text-gray-500"
+          >
+            No se encontraron turnos.
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+}
+
+<app-turno-form-dialog
+  [abierto]="mostrarFormulario()"
+  [guardando]="guardando()"
+  [turnoEditar]="turnoEnEdicion()"
+  (guardar)="guardarTurno($event)"
+  (cerrar)="cerrarFormulario()"
+/>
+<app-confirm-dialog
+  [abierto]="turnoAEliminar() !== null"
+  [procesando]="eliminando()"
+  titulo="Eliminar turno"
+  [mensaje]="'¿Seguro que quieres eliminar el turno &quot;' + formatearTipo(turnoAEliminar()?.tipo ?? '') + '&quot;? Esta acción no se puede deshacer.'"
+  (confirmar)="confirmarEliminar()"
+  (cancelar)="cancelarEliminar()"
+/>
