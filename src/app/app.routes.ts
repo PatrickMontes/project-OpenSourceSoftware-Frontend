@@ -6,6 +6,7 @@ import { DashboardLayout } from "./layouts/dashboard-layout/dashboard-layout";
 import { authGuard } from "./core/guards/auth-guard";
 import { List } from "./features/empleados/pages/list/list";
 import { List as ListCargos } from "./features/cargos/pages/list/list";
+import { List as ListDescuentos } from "./features/descuentos/pages/list/list";
 import { List as ListTurnos } from "./features/turnos/pages/list/list";
 import { List as ListSemanas } from "./features/semanas/pages/list/list";
 import { List as ListPagos } from "./features/pagos/pages/list/list";
@@ -46,6 +47,7 @@ export const routes: Routes = [
       { path: "pagos", component: ListPagos },
       { path: "planillas", component: ListPlanillas },
       { path: "planillas/:id", component: DetailPlanilla },
+      { path: "descuentos", component: ListDescuentos },
       { path: "", redirectTo: "/dashboard", pathMatch: "full" },
     ],
   },
