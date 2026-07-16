@@ -3,11 +3,12 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../../../core/models/api-response.model";
 import { Descuento } from "../models/descuento.model";
+import { API_BASE_URL } from "../../../core/config/api.config";
 
 @Injectable({ providedIn: "root" })
 export class DescuentoService {
   private http = inject(HttpClient);
-  private apiUrl = "http://localhost:8080/api/descuentos";
+  private apiUrl = `${API_BASE_URL}/api/descuentos`;
 
   list(): Observable<ApiResponse<Descuento[]>> {
     return this.http.get<ApiResponse<Descuento[]>>(`${this.apiUrl}/lista`);

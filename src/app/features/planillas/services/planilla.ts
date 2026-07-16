@@ -3,11 +3,12 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../../../core/models/api-response.model";
 import { Planilla } from "../models/planilla.model";
+import { API_BASE_URL } from "../../../core/config/api.config";
 
 @Injectable({ providedIn: "root" })
 export class PlanillaService {
   private http = inject(HttpClient);
-  private apiUrl = "http://localhost:8080/api/planillas";
+  private apiUrl = `${API_BASE_URL}/api/planillas`;
 
   list(): Observable<ApiResponse<Planilla[]>> {
     return this.http.get<ApiResponse<Planilla[]>>(`${this.apiUrl}/lista`);

@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Documento } from '../models/documento.model';
+import { API_BASE_URL } from '../../../core/config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/documentos';
+  private apiUrl = `${API_BASE_URL}/api/documentos`;
 
   list(): Observable<ApiResponse<Documento[]>> {
     return this.http.get<ApiResponse<Documento[]>>(`${this.apiUrl}/lista`);

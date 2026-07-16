@@ -3,11 +3,12 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../../../core/models/api-response.model";
 import { Cargo } from "../../cargos/models/cargo.model";
+import { API_BASE_URL } from "../../../core/config/api.config";
 
 @Injectable({ providedIn: "root" })
 export class CargoService {
   private http = inject(HttpClient);
-  private apiUrl = "http://localhost:8080/api/cargos";
+  private apiUrl = `${API_BASE_URL}/api/cargos`;
 
   list(): Observable<ApiResponse<Cargo[]>> {
     return this.http.get<ApiResponse<Cargo[]>>(`${this.apiUrl}/lista`);

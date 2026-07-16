@@ -3,11 +3,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Empleado, Direccion, ExamenMedico } from '../models/empleado.model';
+import { API_BASE_URL } from '../../../core/config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class EmpleadoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/empleados';
+  private apiUrl = `${API_BASE_URL}/api/empleados`;
 
   list(): Observable<ApiResponse<Empleado[]>> {
     return this.http.get<ApiResponse<Empleado[]>>(`${this.apiUrl}/lista`);

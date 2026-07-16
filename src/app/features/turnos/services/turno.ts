@@ -3,11 +3,12 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../../../core/models/api-response.model";
 import { Turno } from "../models/turno.model";
+import { API_BASE_URL } from "../../../core/config/api.config";
 
 @Injectable({ providedIn: "root" })
 export class TurnoService {
   private http = inject(HttpClient);
-  private apiUrl = "http://localhost:8080/api/turnos";
+  private apiUrl = `${API_BASE_URL}/api/turnos`;
 
   list(): Observable<ApiResponse<Turno[]>> {
     return this.http.get<ApiResponse<Turno[]>>(`${this.apiUrl}/lista`);
